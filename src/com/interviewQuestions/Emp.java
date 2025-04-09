@@ -129,10 +129,49 @@ public class Emp {
                                     
                                     
             //11.what is average salary of male and female employees?
+                          Map<String, Double> collect3 = emp.stream().collect(Collectors.groupingBy(Employee::getGender, Collectors.averagingDouble(Employee::getSalary)));         
+                           System.out.println(collect3);
+                                    
             // 12.List down the names of all employees  in each department
+                           
+               Map<String, List<String>> collect4 = emp.stream()
+                                                       .collect(Collectors.groupingBy(Employee::getDepartment, 
+                                                        Collectors.mapping(Employee::getName, Collectors.toList())));
+                           System.out.println(collect4);
+                                
+              
             //13.what is avaerage salary and total slary of the wholw orgnization
+                           Double averageSalary = emp.stream().collect(Collectors.averagingDouble(Employee::getSalary));
+                           						System.out.println(averageSalary);
+                           						
+                           Double TotalSalary = emp.stream().collect(Collectors.summingDouble(Employee::getSalary));
+                           System.out.println(TotalSalary);
+             
+         	
+ 
             // 14. separtae the employees who are younger and equal to 25 years  from those employes who are older than 25 years
-            //15.who is the olddest employee in the organization? what his age and department he belongs to ?               
+                      Map<Boolean, List<Employee>> partionByAge = emp.stream().collect(Collectors.partitioningBy(e->e.getAge()<=25)); 
+                      
+                                  partionByAge.get(true).forEach(System.out::println);
+                                  
+                                  System.out.println("===============================================================");
+                                  
+                                  partionByAge.get(false).forEach(System.out::println);
+                         
+                           
+                           
+            //15.who is the olddest employee in the organization? what his age and department he belongs to ? 
+                                  
+                   Optional<Employee> max = emp.stream().max(Comparator.comparing(Employee::getAge));
+                   
+                   if(max.isPresent()) {
+                	   Employee empdate=max.get();
+                	   System.out.println("oldest employees");
+                	   System.out.println(empdate.getName());
+                	   System.out.println(empdate.getAge());
+                	   System.out.println(empdate.getDepartment());
+                   }
+                                  
             
                                     
                                     
